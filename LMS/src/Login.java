@@ -128,7 +128,7 @@ public class Login {
 		btnForgotPassword.setBounds(238, 194, 149, 23);
 		frame.getContentPane().add(btnForgotPassword);
 
-		ImageIcon imageIcon = new ImageIcon("C:\\Users\\USER\\Desktop\\bbm487\\LMS\\book.png");
+		ImageIcon imageIcon = new ImageIcon("book.png");
 		Image image = imageIcon.getImage().getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(image);
 
