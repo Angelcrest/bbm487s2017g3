@@ -8,7 +8,7 @@ import javax.swing.border.TitledBorder;
 
 public class Librarian {
 
-	private JFrame frame;
+	public static  JFrame frame;
 	private JTextField txtSearchMember;
 
 	/**
@@ -47,6 +47,15 @@ public class Librarian {
 		JButton logout = new JButton("Logout");
 		logout.setBounds(307, 227, 89, 23);
 		frame.getContentPane().add(logout);
+		logout.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Logout.main(null, "Librarian");
+			}
+			
+		});
 		
 		
 		JPanel panel_1 = new JPanel();

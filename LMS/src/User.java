@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class User {
 
-	private JFrame frame;
+	public static JFrame frame;
 	private JTextField txtSearchBook;
 
 	/**
@@ -71,6 +71,14 @@ public class User {
 		JButton logout = new JButton("Logout");
 		logout.setBounds(21, 211, 115, 23);
 		frame.getContentPane().add(logout);
+		logout.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Logout.main(null, "User");
+			}
+		});
 		
 		
 		JLabel lblSelectList = new JLabel("View");

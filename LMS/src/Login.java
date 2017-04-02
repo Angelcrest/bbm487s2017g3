@@ -87,6 +87,8 @@ public class Login {
 				if (textField.getText().equals("rd") && passwordField.getText().equals("123")) {
 					recordExist = true;
 					btnLogin.setVisible(true);
+					frame.setVisible(false);
+					frame.dispose();
 					Admin.main(null);
 				}
 				/* member login */
@@ -96,6 +98,8 @@ public class Login {
 						if (members.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
+							frame.setVisible(false);
+							frame.dispose();
 							User.main(null);
 
 						}
@@ -111,6 +115,8 @@ public class Login {
 						if (librarians.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
+							frame.setVisible(false);
+							frame.dispose();
 							Librarian.main(null);
 
 						}

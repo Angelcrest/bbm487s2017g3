@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Admin {
 
-	private JFrame frame;
+	public static  JFrame frame;
 	private JPasswordField passwordField;
 
 	/**
@@ -100,6 +100,15 @@ public class Admin {
 		JButton logout = new JButton("Logout");
 		logout.setBounds(335, 227, 89, 23);
 		frame.getContentPane().add(logout);
+		logout.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Logout.main(null, "Admin");
+			}
+			
+		});
 		
 		
 		JButton btnDeleteLibrarian = new JButton("Delete Librarian");
