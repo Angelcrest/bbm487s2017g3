@@ -7,23 +7,22 @@ import javax.swing.*;
 public class Login {
 
 	private JFrame frame;
-	
+	public static Record record  = new Record();
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 
-		ArrayList<Person> member = new ArrayList();
-		member.add(new Person(1, "Alper", "Çetinkaya", " ", "alper", "123"));
-
-		ArrayList<Librarians> librarians = new ArrayList();
-		librarians.add(new Librarians(1, "Merve", "Yetginbal", " ", "123456789", "pekmez", "123"));
-
+		
+		record.getMember().add(new Person(1, "Alper", "Çetinkaya", " ", "alper", "123"));
+		record.getLibrarians().add(new Librarians(1, "Merve", "Yetginbal", " ", "123456789", "merve", "123"));
+		
 		EventQueue.invokeLater(new Runnable() {
 
 			public void run() {
 				try {
-					Login window = new Login(member, librarians);
+					Login window = new Login(record.getMember(), record.getLibrarians());
 					window.frame.setVisible(true);
 					window.frame.setTitle("LMS");
 				} catch (Exception e) {
@@ -82,9 +81,10 @@ public class Login {
 				// TODO Auto-generated method stub
 
 				boolean recordExist = false;
+				boolean emptyField = false;
 
 				/* admin login */
-				if (textField.getText().equals("rd") && passwordField.getText().equals("123")) {
+				if (textField.getText().equals("admin") && passwordField.getText().equals("123")) {
 					recordExist = true;
 					btnLogin.setVisible(true);
 					frame.setVisible(false);
@@ -124,6 +124,11 @@ public class Login {
 					}
 
 				}
+				if (textField.getText().equals(" ") || passwordField.getText().equals(" ")) {
+					recordExist = true;
+					EmptyField.main(null);
+				}
+
 				if (recordExist == false)
 					NoUser.main(null);
 			}

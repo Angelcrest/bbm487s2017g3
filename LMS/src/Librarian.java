@@ -71,6 +71,17 @@ public class Librarian {
 		JButton btnAddBook = new JButton("Add Book");
 		btnAddBook.setBounds(10, 63, 156, 23);
 		panel_1.add(btnAddBook);
+		btnAddBook.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				AddBook.main(null);
+			}
+			
+		});
 		
 		JButton btnDeleteBook = new JButton("Delete Book");
 		btnDeleteBook.setBounds(10, 98, 156, 23);
