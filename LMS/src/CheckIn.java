@@ -1,8 +1,11 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 public class CheckIn {
@@ -54,10 +57,49 @@ public class CheckIn {
 		JButton btnHome = new JButton("Home");
 		btnHome.setBounds(70, 121, 89, 23);
 		frame.getContentPane().add(btnHome);
+		btnHome.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				User.main();
+			}
+			
+		});
 		
 		JButton btnCheckIn = new JButton("Check In");
 		btnCheckIn.setBounds(266, 121, 89, 23);
 		frame.getContentPane().add(btnCheckIn);
+		btnCheckIn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int index=0;
+				boolean found = false;
+				while(index < Login.record.getBooks().size()){
+					if(Login.record.getBooks().get(index).getBarcode().equals(textField.getText())){
+						if(Login.record.getBooks().get(index).isSituation() == true){
+							JOptionPane.showMessageDialog(null, "This book is borrowed!", " ",
+									JOptionPane.WARNING_MESSAGE);
+						}else{
+							Login.record.getBooks().get(index).setSituation(true);
+							JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
+						}
+						found=true;
+						break;
+					}
+					index++;
+				}
+				if(found==false){
+					JOptionPane.showMessageDialog(null, "No books found in this barcode!", " ",
+							JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			
+		});
 	}
 
 }

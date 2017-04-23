@@ -13,7 +13,7 @@ public class User {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -67,6 +67,9 @@ public class User {
 		Choice choice = new Choice();
 		choice.setBounds(26, 34, 115, 20);
 		frame.getContentPane().add(choice);
+		choice.add("Reserved");
+		choice.add("Borrowed");
+		choice.add("Read");
 		
 		JButton logout = new JButton("Logout");
 		logout.setBounds(21, 211, 115, 23);
@@ -76,7 +79,12 @@ public class User {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Logout.main(null, "User");
+				int result = JOptionPane.showConfirmDialog(null, "Do you agree to sign out?", " ", JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.YES_OPTION){
+					frame.setVisible(false);
+					frame.dispose();
+					Login.main(null);
+				}
 			}
 		});
 		
@@ -96,13 +104,33 @@ public class User {
 		JButton btnNewButton_1 = new JButton("Check Out");
 		btnNewButton_1.setBounds(21, 77, 115, 23);
 		frame.getContentPane().add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				CheckOut.main(null);
+			}
+			
+		});
 		
 		JButton btnNewButton_2 = new JButton("Check In");
 		btnNewButton_2.setBounds(21, 116, 115, 23);
 		frame.getContentPane().add(btnNewButton_2);
-		choice.add("Reserved");
-		choice.add("Borrowed");
-		choice.add("Read");
+		btnNewButton_2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				CheckIn.main(null);
+			}
+			
+		});
+		
 
 	}
 }

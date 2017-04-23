@@ -14,9 +14,11 @@ public class Login {
 	 */
 	public static void main(String[] args) {
 
-		
-		record.getMember().add(new Person(1, "Alper", "Çetinkaya", " ", "alper", "123"));
+		/*
+		record.getMember().add(new Person(1, "Alper", "Çetinkaya", " ", "alper", "123"));*/
 		record.getLibrarians().add(new Librarians(1, "Merve", "Yetginbal", " ", "123456789", "merve", "123"));
+		record.getLibrarians().add(new Librarians(2, "Reyhan", "Yetginbal", " ", "123456789", "rd", "123"));
+		record.getBooks().add(new Book(1, "Satranç", "Sweig","1970" ,"123456789", false));
 		
 		EventQueue.invokeLater(new Runnable() {
 
@@ -84,12 +86,18 @@ public class Login {
 				boolean emptyField = false;
 
 				/* admin login */
-				if (textField.getText().equals("admin") && passwordField.getText().equals("123")) {
+				if (textField.getText().equals("admin")) {
 					recordExist = true;
 					btnLogin.setVisible(true);
-					frame.setVisible(false);
-					frame.dispose();
-					Admin.main(null);
+					if(passwordField.getText().equals("123")){	
+						frame.setVisible(false);
+						frame.dispose();
+						Admin.main(null);
+					}else{
+						passwordField.setText(null);
+						JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
+					}
+					
 				}
 				/* member login */
 				if (!members.isEmpty()) {
@@ -98,9 +106,16 @@ public class Login {
 						if (members.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
-							frame.setVisible(false);
-							frame.dispose();
-							User.main(null);
+							if(librarians.get(i).getPass().equals(passwordField.getText())){
+								frame.setVisible(false);
+								frame.dispose();
+								User.main();
+							}
+							else{
+								passwordField.setText(null);
+								JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
+							}
+							
 
 						}
 						i++;
@@ -115,9 +130,16 @@ public class Login {
 						if (librarians.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
-							frame.setVisible(false);
-							frame.dispose();
-							Librarian.main(null);
+							if(librarians.get(i).getPass().equals(passwordField.getText())){
+								frame.setVisible(false);
+								frame.dispose();
+								Librarian.main(null);
+							}
+							else{
+								passwordField.setText(null);
+								JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
+							}
+							
 
 						}
 						i++;
@@ -126,11 +148,11 @@ public class Login {
 				}
 				if (textField.getText().equals(" ") || passwordField.getText().equals(" ")) {
 					recordExist = true;
-					EmptyField.main(null);
+					JOptionPane.showMessageDialog(null, "Enter your username or password", " ", JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				if (recordExist == false)
-					NoUser.main(null);
+					JOptionPane.showMessageDialog(null, "No such user record exists", " ", JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		});
@@ -138,6 +160,18 @@ public class Login {
 		JButton btnForgotPassword = new JButton("Forgot password");
 		btnForgotPassword.setBounds(238, 194, 149, 23);
 		frame.getContentPane().add(btnForgotPassword);
+		btnForgotPassword.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				btnLogin.setVisible(true);
+				frame.setVisible(false);
+				frame.dispose();
+				NewPassword.main(null);
+			}
+			
+		});
 
 		ImageIcon imageIcon = new ImageIcon("book.png");
 		Image image = imageIcon.getImage().getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);

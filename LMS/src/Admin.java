@@ -104,7 +104,13 @@ public class Admin {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Logout.main(null, "Admin");
+				int result = JOptionPane.showConfirmDialog(null, "Do you agree to sign out?", " ",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setVisible(false);
+					frame.dispose();
+					Login.main(null);
+				}
 			}
 
 		});
@@ -112,6 +118,17 @@ public class Admin {
 		JButton btnDeleteLibrarian = new JButton("Delete Librarian");
 		btnDeleteLibrarian.setBounds(21, 227, 132, 23);
 		frame.getContentPane().add(btnDeleteLibrarian);
+		btnDeleteLibrarian.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				DeleteLib.main(null);
+			}
+
+		});
 
 		JButton btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(197, 207, 89, 23);
@@ -121,19 +138,34 @@ public class Admin {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				btnSignUp.setVisible(true);
-				frame.setVisible(false);
-				frame.dispose();
-				addLibrarian(nmTxt.getText(), surnmTxt.getText(), emailTxt.getText(), phoneTxt.getText(),
-						usernmTxt.getText(), passwordField.getText());
-				Admin.main(null);
+				if (nmTxt.getText().isEmpty() || surnmTxt.getText().isEmpty() || usernmTxt.getText().isEmpty()
+						|| passwordField.getText().isEmpty() || emailTxt.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Please enter necessary field!", " ",
+							JOptionPane.WARNING_MESSAGE);
+					nmTxt.setText(null);
+					surnmTxt.setText(null);
+					usernmTxt.setText(null);
+					passwordField.setText(null);
+					emailTxt.setText(null);
+					phoneTxt.setText(null);
+				}
+					
+				else {
+					btnSignUp.setVisible(true);
+					addLibrarian(nmTxt.getText(), surnmTxt.getText(), emailTxt.getText(), phoneTxt.getText(),
+							usernmTxt.getText(), passwordField.getText());
+					JOptionPane.showMessageDialog(null, "Successful", " ",
+							JOptionPane.INFORMATION_MESSAGE);
+					frame.setVisible(false);
+					frame.dispose();
+					Admin.main(null);
+				}
 			}
 
 		});
 	}
 
 	void addLibrarian(String name, String surname, String email, String phone, String user_name, String pass) {
-
 		int index = Login.record.getLibrarians().size() - 1;
 		Login.record.getLibrarians().add(new Librarians(index + 1, name, surname, email, phone, user_name, pass));
 	}

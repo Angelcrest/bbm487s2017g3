@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -6,8 +9,11 @@ public class Books {
 
 	private JFrame frame;
 	private JTextField txtSearchBook;
-	private JButton btnNewButton_2;
+	private JButton btnHome;
 	private JTable table;
+	private int index = 0;
+	private boolean found = false;
+	DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -41,7 +47,21 @@ public class Books {
 		frame.setBounds(100, 100, 424, 299);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
+		JPanel panel = new JPanel();
+		panel.setBounds(44, 76, 294, 115);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 294, 115);
+		panel.add(scrollPane);
+
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Situation" }));
+		model = (DefaultTableModel) table.getModel();
+
 		txtSearchBook = new JTextField();
 		txtSearchBook.setForeground(Color.LIGHT_GRAY);
 		txtSearchBook.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -49,38 +69,62 @@ public class Books {
 		txtSearchBook.setBounds(44, 29, 206, 25);
 		frame.getContentPane().add(txtSearchBook);
 		txtSearchBook.setColumns(10);
-		
+
 		JButton btnNewButton = new JButton("Search");
 		btnNewButton.setBounds(260, 29, 88, 25);
 		frame.getContentPane().add(btnNewButton);
-		
+		btnNewButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				while (index < Login.record.getBooks().size()) {
+					if (Login.record.getBooks().get(index).getName().equals(txtSearchBook.getText())) {
+						model.addRow(new Object[] { Login.record.getBooks().get(index).getName(),
+								Login.record.getBooks().get(index).isSituation() });
+						found = true;
+						break;
+					}
+					index++;
+				}
+				if (found == false) {
+					JOptionPane.showMessageDialog(null, "No books found in this name!", " ",
+							JOptionPane.WARNING_MESSAGE);
+				}
+			}
+
+		});
+
 		JButton btnNewButton_1 = new JButton("Add Book");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_1.setBounds(260, 226, 116, 23);
 		frame.getContentPane().add(btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("Home");
-		btnNewButton_2.setBounds(10, 227, 89, 23);
-		frame.getContentPane().add(btnNewButton_2);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(44, 76, 294, 115);
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 294, 115);
-		panel.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Name", "Situation"
+		btnNewButton_1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				AddBook.main(null);
 			}
-		));
-		
+
+		});
+
+		btnHome = new JButton("Home");
+		btnHome.setBounds(10, 227, 89, 23);
+		frame.getContentPane().add(btnHome);
+		btnHome.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				Librarian.main(null);
+			}
+
+		});
+
 	}
 }

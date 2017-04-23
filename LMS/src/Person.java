@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Person {
 	
@@ -7,10 +8,9 @@ public class Person {
 	private String email;
 	private String username;
 	private String pass;
+	private double fine;
 	private int P_id;
-	
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,7 +74,14 @@ public class Person {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	
+
+	public double getFine() {
+		return fine;
+	}
+	public void setFine(double fine) {
+		this.fine = fine;
+	}
+
 	public Person (int p_id, String name, String surname, String email, String username,  String pass) {
 		P_id = p_id;
 		this.name = name;
@@ -82,6 +89,7 @@ public class Person {
 		this.email = email;
 		this.username = username;
 		this.pass = pass;
+		this.fine = 0.0;
 	}
 	public Person () {
 	}
