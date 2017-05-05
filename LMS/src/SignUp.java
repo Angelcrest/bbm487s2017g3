@@ -118,8 +118,8 @@ public class SignUp {
 
 				else {
 					button.setVisible(true);
-					addMember(nmTxt.getText(), surnmTxt.getText(),
-							emailTxt.getText(), usernmTxt.getText(), passwordField.getText());
+					addMember(nmTxt.getText(), surnmTxt.getText(), emailTxt.getText(), usernmTxt.getText(),
+							passwordField.getText());
 					JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
 					frame.setVisible(false);
 					frame.dispose();
@@ -138,7 +138,7 @@ public class SignUp {
 				// TODO Auto-generated method stub
 				frame.setVisible(false);
 				frame.dispose();
-				Librarian.main(null);
+				LibrarianMain.main(null);
 			}
 
 		});
@@ -146,7 +146,8 @@ public class SignUp {
 
 	void addMember(String name, String surname, String email, String user_name, String pass) {
 
-		int index = Login.record.getMember().size();
-		Login.record.getMember().add(new Person(index + 1, name, surname, email, user_name, pass));
+		int index = Record.getMember().size();
+		Record.getMember().add(new Person(index + 1, name, surname, email, user_name, pass));
+		Record.write_member(new Person(index + 1, name, surname, email, user_name, pass), "members.txt");
 	}
 }

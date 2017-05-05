@@ -1,180 +1,26 @@
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
+public class Librarian extends Person {
+	private static String phone;
 
-public class Librarian {
-
-	public static JFrame frame;
-	private JTextField txtSearchMember;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Librarian window = new Librarian();
-					window.frame.setVisible(true);
-					window.frame.setTitle("LMS");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public String getPhone() {
+		return phone;
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public Librarian() {
-		initialize();
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 580, 318);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-
-		JButton logout = new JButton("Logout");
-		logout.setBounds(437, 227, 89, 23);
-		frame.getContentPane().add(logout);
-		logout.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				int result = JOptionPane.showConfirmDialog(null, "Do you agree to sign out?", " ",
-						JOptionPane.YES_NO_OPTION);
-				if (result == JOptionPane.YES_OPTION) {
-					frame.setVisible(false);
-					frame.dispose();
-					Login.main(null);
-				}
-			}
-
-		});
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Book Operation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 27, 242, 173);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-
-		JButton btnSearchBook = new JButton("Search Book");
-		btnSearchBook.setBounds(10, 29, 208, 23);
-		panel_1.add(btnSearchBook);
-		btnSearchBook.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				frame.setVisible(false);
-				frame.dispose();
-				Books.main(null);
-			}
-
-		});
-
-		JButton btnAddBook = new JButton("Add Book");
-		btnAddBook.setBounds(10, 63, 208, 23);
-		panel_1.add(btnAddBook);
-		btnAddBook.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				frame.setVisible(false);
-				frame.dispose();
-				AddBook.main(null);
-			}
-
-		});
-
-		JButton btnDeleteBook = new JButton("Delete Book");
-		btnDeleteBook.setBounds(10, 98, 208, 23);
-		panel_1.add(btnDeleteBook);
-		btnDeleteBook.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				frame.setVisible(false);
-				frame.dispose();
-				DeleteBook.main(null);
-			}
-
-		});
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(
-				new TitledBorder(null, "Member Operation", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(283, 27, 271, 173);
-		frame.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
-
-		JButton btnAddMember = new JButton("Add Member");
-		btnAddMember.setBounds(26, 29, 212, 23);
-		panel_2.add(btnAddMember);
-		btnAddMember.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				frame.setVisible(false);
-				frame.dispose();
-				SignUp.main(null);
-			}
-
-		});
-
-		JButton btnEditMember = new JButton("Edit Member");
-		btnEditMember.setBounds(26, 111, 212, 23);
-		panel_2.add(btnEditMember);
-
-		txtSearchMember = new JTextField();
-		txtSearchMember.setForeground(Color.LIGHT_GRAY);
-		txtSearchMember.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		txtSearchMember.setText("Search member by user name");
-		txtSearchMember.setBounds(26, 74, 212, 23);
-		panel_2.add(txtSearchMember);
-		txtSearchMember.setColumns(10);
-		btnEditMember.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				int index = 0;
-				boolean found = false;
-				if (txtSearchMember.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Search field cannot be empty!", " ",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					while (index < Login.record.getMember().size()) {
-
-						if (Login.record.getMember().get(index).getUsername().equals(txtSearchMember.getText())) {
-							found = true;
-							frame.setVisible(false);
-							frame.dispose();
-							Account.main(Login.record.getMember().get(index).getP_id(),true);
-							break;
-						}
-						index++;
-					}
-					if (found == false) {
-						JOptionPane.showMessageDialog(null, "No such user record exists!", " ",
-								JOptionPane.WARNING_MESSAGE);
-					}
-				}
-			}
-		});
-
+	public Librarian(int p_id, String name, String surname, String email,String phone, String username,  String pass) {
+		// TODO Auto-generated constructor stub
+		//super();
+		super.setP_id(p_id);
+		super.setName(name);
+		super.setSurname(surname);
+		super.setEmail(email);
+		super.setUsername(username);
+		super.setPass(pass);
+		this.setPhone(phone);
 	}
+	
+
 }

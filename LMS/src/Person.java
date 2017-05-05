@@ -91,6 +91,15 @@ public class Person {
 		this.pass = pass;
 		this.fine = 0.0;
 	}
+	public Person (int p_id, String name, String surname, String email, String username,  String pass, double f) {
+		P_id = p_id;
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.username = username;
+		this.pass = pass;
+		this.fine = f;
+	}
 	public Person () {
 	}
 	

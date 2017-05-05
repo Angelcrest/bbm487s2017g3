@@ -5,14 +5,14 @@ public class Book {
 	private String author;
 	private String year;
 	private String barcode;
-	private boolean situation;
+	private boolean borrowed;
 
-	public boolean isSituation() {
-		return situation;
+	public boolean isBorrowed() {
+		return borrowed;
 	}
 
-	public void setSituation(boolean situation) {
-		this.situation = situation;
+	public void setBorrowed(boolean situation) {
+		this.borrowed = situation;
 	}
 
 	public String getBarcode() {
@@ -62,7 +62,7 @@ public class Book {
 		this.author = author;
 		this.year = year;
 		this.barcode = barcode;
-		this.situation = st;
+		this.borrowed = st;
 	}
 
 }

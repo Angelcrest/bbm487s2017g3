@@ -122,14 +122,14 @@ public class AddBook {
 				// TODO Auto-generated method stub
 				frame.setVisible(false);
 				frame.dispose();
-				Librarian.main(null);
+				LibrarianMain.main(null);
 			}
 			
 		});
 	}
 
 	void addBook(String name, String author, String year, String brcode, boolean st){
-		int index = Login.record.getBooks().size()-1;
-		Login.record.getBooks().add(new Book(index+1, name, author, year, brcode, st));
+		int index = Record.getBooks().size()-1;
+		Record.getBooks().add(new Book(index+1, name, author, year, brcode, st));
 	}
 }

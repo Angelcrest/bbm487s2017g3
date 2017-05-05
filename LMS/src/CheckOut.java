@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JButton;
 
-public class CheckOut {
+public class CheckOut  {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -16,11 +16,11 @@ public class CheckOut {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(int id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CheckOut window = new CheckOut();
+					CheckOut  window = new CheckOut (id);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,41 +32,60 @@ public class CheckOut {
 	/**
 	 * Create the application.
 	 */
-	public CheckOut() {
-		initialize();
+	public CheckOut (int id) {
+		initialize(id);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(int id) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(67, 66, 279, 29);
+		textField.setBounds(54, 60, 314, 31);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnC = new JButton("Check Out");
-		btnC.setBounds(242, 122, 104, 23);
-		frame.getContentPane().add(btnC);
-		btnC.addActionListener(new ActionListener(){
+		JLabel lblBarcode = new JLabel("Barcode");
+		lblBarcode.setBounds(55, 44, 83, 14);
+		frame.getContentPane().add(lblBarcode);
+		
+		JButton btnHome = new JButton("Home");
+		btnHome.setBounds(70, 121, 89, 23);
+		frame.getContentPane().add(btnHome);
+		btnHome.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				frame.dispose();
+				Member.main(id);
+			}
+			
+		});
+		
+		JButton btnCheckIn = new JButton("Check In");
+		btnCheckIn.setBounds(266, 121, 89, 23);
+		frame.getContentPane().add(btnCheckIn);
+		btnCheckIn.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				int index=0;
 				boolean found = false;
-				while(index < Login.record.getBooks().size()){
-					if(Login.record.getBooks().get(index).getBarcode().equals(textField.getText())){
-						if(Login.record.getBooks().get(index).isSituation() == false){
-							JOptionPane.showMessageDialog(null, "This book is not borrowed!", " ",
+				while(index < Record.getBooks().size()){
+					if(Record.getBooks().get(index).getBarcode().equals(textField.getText())){
+						if(Record.getBooks().get(index).isBorrowed() == true){
+							JOptionPane.showMessageDialog(null, "This book is borrowed!", " ",
 									JOptionPane.WARNING_MESSAGE);
 						}else{
-							Login.record.getBooks().get(index).setSituation(false);
+							Record.getBooks().get(index).setBorrowed(true);
 							JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
 						}
 						found=true;
@@ -78,25 +97,6 @@ public class CheckOut {
 					JOptionPane.showMessageDialog(null, "No books found in this barcode!", " ",
 							JOptionPane.WARNING_MESSAGE);
 				}
-			}
-			
-		});
-		
-		JLabel lblBarcode = new JLabel("Barcode");
-		lblBarcode.setBounds(67, 39, 71, 23);
-		frame.getContentPane().add(lblBarcode);
-		
-		JButton btnCancel = new JButton("Home");
-		btnCancel.setBounds(67, 122, 89, 23);
-		frame.getContentPane().add(btnCancel);
-		btnCancel.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				frame.setVisible(false);
-				frame.dispose();
-				User.main();
 			}
 			
 		});

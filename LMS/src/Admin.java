@@ -109,13 +109,13 @@ public class Admin {
 				if (result == JOptionPane.YES_OPTION) {
 					frame.setVisible(false);
 					frame.dispose();
-					Login.main(null);
+					//Login.main(null);
 				}
 			}
 
 		});
 
-		JButton btnDeleteLibrarian = new JButton("Delete Librarian");
+		JButton btnDeleteLibrarian = new JButton("Delete LibrarianMain");
 		btnDeleteLibrarian.setBounds(21, 227, 132, 23);
 		frame.getContentPane().add(btnDeleteLibrarian);
 		btnDeleteLibrarian.addActionListener(new ActionListener() {
@@ -166,7 +166,7 @@ public class Admin {
 	}
 
 	void addLibrarian(String name, String surname, String email, String phone, String user_name, String pass) {
-		int index = Login.record.getLibrarians().size() - 1;
-		Login.record.getLibrarians().add(new Librarians(index + 1, name, surname, email, phone, user_name, pass));
+		int index = Record.getLibrarians().size() - 1;
+		Record.getLibrarians().add(new Librarian(index + 1, name, surname, email, phone, user_name, pass));
 	}
 }

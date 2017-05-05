@@ -47,7 +47,7 @@ public class DeleteLib {
 		txtSearchLibrarian = new JTextField();
 		txtSearchLibrarian.setForeground(Color.LIGHT_GRAY);
 		txtSearchLibrarian.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		txtSearchLibrarian.setText("Search Librarian by username");
+		txtSearchLibrarian.setText("Search LibrarianMain by username");
 		txtSearchLibrarian.setBounds(44, 30, 313, 34);
 		frame.getContentPane().add(txtSearchLibrarian);
 		txtSearchLibrarian.setColumns(10);
@@ -71,11 +71,11 @@ public class DeleteLib {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String user = txtSearchLibrarian.getText();
-				while (index < Login.record.getLibrarians().size()) {
-					if (Login.record.getLibrarians().get(index).getUsername().equals(user)) {
+				while (index < Record.getLibrarians().size()) {
+					if (Record.getLibrarians().get(index).getUsername().equals(user)) {
 						textField.setForeground(Color.BLACK);
 						textField.setFont(new Font("Tahoma", Font.ITALIC, 12));
-						textField.setText(Login.record.getLibrarians().get(index).getUsername());
+						textField.setText(Record.getLibrarians().get(index).getUsername());
 						found = true;
 						break;
 					}
@@ -101,7 +101,8 @@ public class DeleteLib {
 				// TODO Auto-generated method stub
 				btnDelete.setVisible(true);
 				if (found) {
-					Login.record.getLibrarians().remove(index);
+					Record.getLibrarians().remove(index);
+					Record.write_librarian(Record.getLibrarians(), "librarians.txt");
 					JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
 					frame.setVisible(false);
 					frame.dispose();

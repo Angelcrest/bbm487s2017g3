@@ -7,24 +7,16 @@ import javax.swing.*;
 public class Login {
 
 	private JFrame frame;
-	public static Record record  = new Record();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-
-		/*
-		record.getMember().add(new Person(1, "Alper", "Çetinkaya", " ", "alper", "123"));*/
-		record.getLibrarians().add(new Librarians(1, "Merve", "Yetginbal", " ", "123456789", "merve", "123"));
-		record.getLibrarians().add(new Librarians(2, "Reyhan", "Yetginbal", " ", "123456789", "rd", "123"));
-		record.getBooks().add(new Book(1, "Satranç", "Sweig","1970" ,"123456789", false));
-		
 		EventQueue.invokeLater(new Runnable() {
 
 			public void run() {
 				try {
-					Login window = new Login(record.getMember(), record.getLibrarians());
+					Login window = new Login(Record.getMember(), Record.getLibrarians());
 					window.frame.setVisible(true);
 					window.frame.setTitle("LMS");
 				} catch (Exception e) {
@@ -38,7 +30,7 @@ public class Login {
 	/**
 	 * Create the application.
 	 */
-	public Login(ArrayList<Person> members, ArrayList<Librarians> librarians) {
+	public Login(ArrayList<Person> members, ArrayList<Librarian> librarians) {
 
 		initialize(members, librarians);
 
@@ -47,7 +39,7 @@ public class Login {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(ArrayList<Person> members, ArrayList<Librarians> librarians) {
+	private void initialize(ArrayList<Person> members, ArrayList<Librarian> librarians) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,44 +77,43 @@ public class Login {
 				boolean recordExist = false;
 				boolean emptyField = false;
 
-				/* admin login */
+				// admin login
 				if (textField.getText().equals("admin")) {
 					recordExist = true;
 					btnLogin.setVisible(true);
-					if(passwordField.getText().equals("123")){	
+					if (passwordField.getText().equals("123")) {
 						frame.setVisible(false);
 						frame.dispose();
 						Admin.main(null);
-					}else{
+					} else {
 						passwordField.setText(null);
 						JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
 					}
-					
+
 				}
-				/* member login */
+				// member login
 				if (!members.isEmpty()) {
 					int i = 0;
 					while (i < members.size()) {
 						if (members.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
-							if(librarians.get(i).getPass().equals(passwordField.getText())){
+							if (members.get(i).getPass().equals(passwordField.getText())) {
 								frame.setVisible(false);
 								frame.dispose();
-								User.main();
-							}
-							else{
+								Member.main(members.get(i).getP_id());
+							} else {
 								passwordField.setText(null);
-								JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Wrong Password!", " ",
+										JOptionPane.WARNING_MESSAGE);
 							}
-							
 
 						}
 						i++;
 					}
 
 				}
-				/* librarian login */
+				// librarian login
 				if (!librarians.isEmpty()) {
 					int i = 0;
 
@@ -130,29 +121,30 @@ public class Login {
 						if (librarians.get(i).getUsername().equals(textField.getText())) {
 							recordExist = true;
 							btnLogin.setVisible(true);
-							if(librarians.get(i).getPass().equals(passwordField.getText())){
+							if (librarians.get(i).getPass().equals(passwordField.getText())) {
 								frame.setVisible(false);
 								frame.dispose();
-								Librarian.main(null);
-							}
-							else{
+								LibrarianMain.main(null);
+							} else {
 								passwordField.setText(null);
-								JOptionPane.showMessageDialog(null, "Wrong Password!", " ", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Wrong Password!", " ",
+										JOptionPane.WARNING_MESSAGE);
 							}
-							
 
 						}
 						i++;
 					}
 
 				}
-				if (textField.getText().equals(" ") || passwordField.getText().equals(" ")) {
+				if (textField.getText().equals("") || passwordField.getText().equals("")) {
 					recordExist = true;
-					JOptionPane.showMessageDialog(null, "Enter your username or password", " ", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Enter your username or password", " ",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				if (recordExist == false)
-					JOptionPane.showMessageDialog(null, "No such user record exists", " ", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No such user record exists", " ",
+							JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		});
@@ -160,7 +152,7 @@ public class Login {
 		JButton btnForgotPassword = new JButton("Forgot password");
 		btnForgotPassword.setBounds(238, 194, 149, 23);
 		frame.getContentPane().add(btnForgotPassword);
-		btnForgotPassword.addActionListener(new ActionListener(){
+		btnForgotPassword.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -170,7 +162,7 @@ public class Login {
 				frame.dispose();
 				NewPassword.main(null);
 			}
-			
+
 		});
 
 		ImageIcon imageIcon = new ImageIcon("book.png");

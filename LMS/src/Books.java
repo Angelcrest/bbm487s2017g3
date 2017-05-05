@@ -59,7 +59,7 @@ public class Books {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Situation" }));
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Borrowed" }));
 		model = (DefaultTableModel) table.getModel();
 
 		txtSearchBook = new JTextField();
@@ -78,10 +78,10 @@ public class Books {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				while (index < Login.record.getBooks().size()) {
-					if (Login.record.getBooks().get(index).getName().equals(txtSearchBook.getText())) {
-						model.addRow(new Object[] { Login.record.getBooks().get(index).getName(),
-								Login.record.getBooks().get(index).isSituation() });
+				while (index < Record.getBooks().size()) {
+					if (Record.getBooks().get(index).getName().equals(txtSearchBook.getText())) {
+						model.addRow(new Object[] { Record.getBooks().get(index).getName(),
+								Record.getBooks().get(index).isBorrowed() });
 						found = true;
 						break;
 					}
@@ -121,7 +121,7 @@ public class Books {
 				// TODO Auto-generated method stub
 				frame.setVisible(false);
 				frame.dispose();
-				Librarian.main(null);
+				LibrarianMain.main(null);
 			}
 
 		});

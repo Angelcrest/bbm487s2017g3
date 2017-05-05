@@ -77,11 +77,11 @@ public class DeleteBook {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String book = txtSearchBook.getText();
-				while (index < Login.record.getBooks().size()) {
-					if (Login.record.getBooks().get(index).getName().equals(book)) {
+				while (index < Record.getBooks().size()) {
+					if (Record.getBooks().get(index).getName().equals(book)) {
 						textField.setForeground(Color.BLACK);
 						textField.setFont(new Font("Tahoma", Font.ITALIC, 12));
-						textField.setText(Login.record.getBooks().get(index).getName());
+						textField.setText(Record.getBooks().get(index).getName());
 						found = true;
 						break;
 					}
@@ -100,14 +100,15 @@ public class DeleteBook {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setBounds(280, 192, 89, 23);
 		frame.getContentPane().add(btnDelete);
-		btnDelete.addActionListener(new ActionListener(){
+		btnDelete.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				btnDelete.setVisible(true);
 				if (found) {
-					Login.record.getBooks().remove(index);
+					Record.getBooks().remove(index);
+					Record.write_book(Record.getBooks(), "books.txt");
 					JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
 					frame.setVisible(false);
 					frame.dispose();
@@ -121,22 +122,22 @@ public class DeleteBook {
 					DeleteBook.main(null);
 				}
 			}
-			
+
 		});
-		
+
 		JButton btnHome = new JButton("Home");
 		btnHome.setBounds(45, 192, 89, 23);
 		frame.getContentPane().add(btnHome);
-		btnHome.addActionListener(new ActionListener(){
+		btnHome.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				frame.setVisible(false);
 				frame.dispose();
-				Librarian.main(null);
+				LibrarianMain.main(null);
 			}
-			
+
 		});
 	}
 }
