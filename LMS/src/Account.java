@@ -1,6 +1,8 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -212,7 +214,10 @@ public class Account {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				DateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
 				Record.getMember().get(index).setFine(0.0);
+				Record.getMember().get(index).setTime(dt.format(new Date()));
+				Record.write_member(Record.getMember(), "members.txt");
 				txtfine.setText(String.valueOf(Record.getMember().get(index).getFine()));
 			}
 			

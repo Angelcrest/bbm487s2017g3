@@ -5,6 +5,17 @@ public class Book {
 	private String author;
 	private String year;
 	private String barcode;
+	private String time;
+	
+	
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	private boolean borrowed;
 
 	public boolean isBorrowed() {
