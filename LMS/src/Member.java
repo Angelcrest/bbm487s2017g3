@@ -23,6 +23,7 @@ public class Member {
 					window.frame.setVisible(true);
 					window.frame.setTitle("LMS");
 					Person.check_fine(id);
+					check_waiting_list(id);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,7 +44,7 @@ public class Member {
 	private void initialize(int id) {
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 690, 418);
+		frame.setBounds(100, 100, 665, 418);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -63,12 +64,6 @@ public class Member {
 			}
 		});
 
-		Choice choice = new Choice();
-		choice.setBounds(207, 140, 115, 83);
-		frame.getContentPane().add(choice);
-		choice.add("Reserved");
-		choice.add("Borrowed");
-		choice.add("Read");
 
 		JLabel lblSelectList = new JLabel("View");
 		lblSelectList.setBounds(207, 120, 104, 14);
@@ -151,12 +146,15 @@ public class Member {
 							Record.write_book(Record.getBooks(), "books.txt");
 							int index_p = 0;
 							while (index_p < Record.getMember().size()) {
-								if (id == Record.getMember().get(index_p).getP_id())
+								if (id == Record.getMember().get(index_p).getP_id()) {
+									Record.getMember().get(index_p).getB().add(Record.getBooks().get(index));
 									break;
+								}
 								index_p++;
 							}
 							Record.delete_reserved(Record.getMember().get(index_p), Record.getBooks().get(index),
 									"reserved.txt");
+							Record.write_reading(Record.getMember(), "reading.txt");
 							JOptionPane.showMessageDialog(null, "Successful", " ", JOptionPane.INFORMATION_MESSAGE);
 						}
 						found = true;
@@ -177,40 +175,104 @@ public class Member {
 		txtSearchBook.setForeground(Color.LIGHT_GRAY);
 		txtSearchBook.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		txtSearchBook.setText("Search book");
-		txtSearchBook.setBounds(343, 36, 301, 28);
+		txtSearchBook.setBounds(343, 36, 279, 28);
 		frame.getContentPane().add(txtSearchBook);
 		txtSearchBook.setColumns(10);
 
-		DefaultTableModel model = new DefaultTableModel();
-		model.setDataVector(new Object[][] {}, new String[] { "Name", "Borrowed", "Waiting" });
-		JTable table = new JTable(model);
-		table.getColumn("Waiting").setCellRenderer(new ButtonRenderer());
-		table.getColumn("Waiting").setCellEditor(new ButtonEditor(new JCheckBox()));
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(353, 140, 294, 200);
-		frame.getContentPane().add(scrollPane);
+		JTextArea textPane = new JTextArea();
+		textPane.setBounds(343, 140, 279, 105);
+		frame.getContentPane().add(textPane);
+		
 
+		Choice choice = new Choice();
+		choice.setBounds(207, 140, 115, 83);
+		frame.getContentPane().add(choice);
+		choice.add("List Your Book");
+		choice.add("Reserved");
+		choice.add("Read");
+		choice.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				String data = choice.getItem(choice.getSelectedIndex());
+				if(data.equals("Reserved")){
+					int index_p = 0, index_b = 0;
+					while (index_p < Record.getReserved().size()) {
+						if (Record.getReserved().get(index_p).getP().getP_id() == id) {
+							while (index_b < Record.getReserved().get(index_p).getB().size()) {
+						
+								textPane.append(Record.getReserved().get(index_p).getB().get(index_b).getName()+ "\n");
+								index_b++;
+							}
+							break;
+						}
+
+						index_p++;
+					}
+					
+				}else if(data.equals("Read")){
+					int index_p = 0, index_b = 0;
+					while (index_p < Record.getMember().size()) {
+						if (Record.getMember().get(index_p).getP_id() == id) {
+							while (index_b < Record.getMember().get(index_p).getB().size()) {
+								textPane.setText(Record.getMember().get(index_p).getB().get(index_b).getName() + "\n");
+								index_b++;
+							}
+							break;
+						}
+
+						index_p++;
+					}
+				}
+			}
+		});
+		
+		JButton btnNewButton = new JButton("Add Waiting List");
+		btnNewButton.setBounds(429, 256, 193, 23);
+		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(550, 77, 94, 23);
+		btnSearch.setBounds(477, 77, 145, 23);
 		frame.getContentPane().add(btnSearch);
+
 		btnSearch.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				textPane.setText(null);
 				String book = txtSearchBook.getText();
 				int index = 0;
 				boolean found = false;
 				while (index < Record.getBooks().size()) {
 					if (Record.getBooks().get(index).getName().equals(book)) {
 						if (Record.getBooks().get(index).isBorrowed()) {
-							model.setDataVector(
-									new Object[][] { { Record.getBooks().get(index).getName(), "Borrowed", "add" } },
-									new String[] {});
+							textPane.setText(Record.getBooks().get(index).getName() + "\t\t Borrowed");
+							btnNewButton.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent arg0) {
+									int i = 0;
+									while (i < Record.getMember().size()) {
+										if (Record.getMember().get(i).getP_id() == id)
+											break;
+										i++;
+									}
+									int j = 0;
+									while (j < Record.getBooks().size()) {
+										if (Record.getBooks().get(j).getName().equals(book)) {
+											break;
+										}
+										j++;
+									}
+									Record.write_Waiting(Record.getMember().get(i), Record.getBooks().get(j),
+											"waiting.txt");
+									JOptionPane.showMessageDialog(null, "Successful", " ",
+											JOptionPane.INFORMATION_MESSAGE);
+								}
+							});
+
+							frame.getContentPane().add(btnNewButton);
 
 						} else {
-							model.addRow(new Object[] { Record.getBooks().get(index).getName(), "On The Shelf" });
+							textPane.setText(Record.getBooks().get(index).getName() + "\t\t Shelf");
 						}
 
 						found = true;
@@ -246,5 +308,20 @@ public class Member {
 		});
 	}
 
-	
+	static void check_waiting_list(int id) {
+		int index1 = 0, index2 = 0;
+		while (index1 < Record.getWaiting().size()) {
+			if (!Record.getWaiting().get(index1).getB().isBorrowed()) {
+				while (index2 < Record.getWaiting().get(index1).getP().size()) {
+					if (Record.getWaiting().get(index1).getP().get(index2).getP_id() == id) {
+						JOptionPane.showMessageDialog(null, "The books you expect are on the shelf", " ",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					index2++;
+				}
+			}
+
+			index1++;
+		}
+	}
 }

@@ -9,7 +9,7 @@ public class Record {
 	private static ArrayList<Book> books = new ArrayList<Book>();
 	private static ArrayList<Reserved> reserved = new ArrayList<Reserved>();
 	private static ArrayList<Waiting> waiting = new ArrayList<Waiting>();
-	
+
 	public static ArrayList<Book> getBooks() {
 		return books;
 	}
@@ -24,6 +24,10 @@ public class Record {
 
 	public static ArrayList<Reserved> getReserved() {
 		return reserved;
+	}
+
+	public static ArrayList<Waiting> getWaiting() {
+		return waiting;
 	}
 
 	static void read_member(ArrayList<Person> m, String f) throws IOException {
@@ -89,6 +93,137 @@ public class Record {
 				Book temp = new Book(Integer.parseInt(part[0]), part[1], part[2], part[3], part[4],
 						Boolean.valueOf(part[5]));
 				getBooks().add(temp);
+
+			}
+			br.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	static void read_reading(String f) {
+		BufferedReader br = null;
+
+		try {
+
+			String line;
+			br = new BufferedReader(new FileReader(f));
+
+			while ((line = br.readLine()) != null) {
+				String[] part = line.split(" ");
+
+				int person = Integer.parseInt(part[0]);
+				int book = Integer.parseInt(part[1]);
+
+				int index_p = 0, index_b = 0;
+				boolean p_r = false;
+
+				/* if user exist in reserved */
+				while (index_p < getMember().size()) {
+					if (getMember().get(index_p).getP_id() == person) {
+						while (index_b < getBooks().size()) {
+							if (getBooks().get(index_b).getId() == book) {
+								getMember().get(index_p).getB().add(getBooks().get(index_b));
+								break;
+							}
+							index_b++;
+						}
+						p_r = true;
+						break;
+					}
+
+					index_p++;
+				}
+
+				/* if user not exist in reserved */
+				if (p_r == false) {
+					index_p = 0;
+					index_b = 0;
+					while (index_p < getMember().size()) {
+						if (getMember().get(index_p).getP_id() == person) {
+							while (index_b < getBooks().size()) {
+								if (getBooks().get(index_b).getId() == book) {
+									ArrayList<Book> b = new ArrayList<Book>();
+									b.add(getBooks().get(index_b));
+									getMember().get(index_p).setB(b);
+									;
+									break;
+								}
+								index_b++;
+							}
+							break;
+						}
+						index_p++;
+					}
+				}
+
+			}
+			br.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	static void read_waiting(String f) {
+		BufferedReader br = null;
+
+		try {
+
+			String line;
+			br = new BufferedReader(new FileReader(f));
+
+			while ((line = br.readLine()) != null) {
+				String[] part = line.split(" ");
+
+				int book = Integer.parseInt(part[0]);
+				int person = Integer.parseInt(part[1]);
+
+				int index_p = 0, index_b = 0;
+				boolean b_w = false;
+
+				/* if book exist in waiting list */
+				while (index_b < getWaiting().size()) {
+					if (getWaiting().get(index_b).getB().getId() == book) {
+						while (index_p < getMember().size()) {
+							if (getMember().get(index_p).getP_id() == person) {
+								getWaiting().get(index_b).getP().add(getMember().get(index_p));
+								break;
+							}
+							index_p++;
+						}
+						b_w = true;
+						break;
+					}
+
+					index_b++;
+				}
+
+				/* if book not exist in waiting list */
+				if (b_w == false) {
+					index_p = 0;
+					index_b = 0;
+					while (index_b < getBooks().size()) {
+						if (getBooks().get(index_b).getId() == book) {
+							while (index_p < getMember().size()) {
+								if (getMember().get(index_p).getP_id() == person) {
+									ArrayList<Person> p = new ArrayList<Person>();
+									p.add(getMember().get(index_p));
+									getWaiting().add(new Waiting(getBooks().get(index_b), p));
+									break;
+								}
+								index_p++;
+							}
+							break;
+						}
+						index_b++;
+					}
+				}
 
 			}
 			br.close();
@@ -176,7 +311,7 @@ public class Record {
 			bw = new BufferedWriter(new FileWriter(f, true));
 			bw.write("\n" + temp.getP_id() + " \"" + temp.getName() + "\" \"" + temp.getSurname() + "\" \""
 					+ temp.getEmail() + "\" \"" + temp.getUsername() + "\" \"" + temp.getPass() + "\" \""
-					+ temp.getFine()+ "\" \"" + temp.getTime()  + "\"");
+					+ temp.getFine() + "\" \"" + temp.getTime() + "\"");
 
 			bw.close();
 		} catch (IOException e) {
@@ -198,6 +333,29 @@ public class Record {
 						+ temp.getEmail() + "\" \"" + temp.getUsername() + "\" \"" + temp.getPass() + "\" \""
 						+ temp.getFine() + "\" \"" + temp.getTime() + "\"");
 				bw.write("\n");
+
+			}
+			bw.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+	static void write_reading(ArrayList<Person> m, String f) {
+		BufferedWriter bw = null;
+
+		try {
+
+			bw = new BufferedWriter(new FileWriter(f));
+			for (Person temp : m) {
+				for(Book b: temp.getB()){
+					bw.write(temp.getP_id() + " " + b.getId());
+					bw.write("\n");
+				}
+				
 
 			}
 			bw.close();
@@ -292,7 +450,7 @@ public class Record {
 		try {
 			bw = new BufferedWriter(new FileWriter(f));
 
-			int index_p = 0, index_b=0;
+			int index_p = 0, index_b = 0;
 			boolean p_r = false;
 			/* if user exist in reserved */
 			while (index_p < getReserved().size()) {
@@ -312,7 +470,8 @@ public class Record {
 			}
 			/* if user not exist in reserved */
 			if (p_r == false) {
-				index_p = 0; index_b=0;
+				index_p = 0;
+				index_b = 0;
 				while (index_p < getMember().size()) {
 					if (getMember().get(index_p).equals(p)) {
 						ArrayList<Book> books = new ArrayList<Book>();
@@ -326,7 +485,54 @@ public class Record {
 			for (Reserved r : getReserved()) {
 				int i = 0;
 				while (i < r.getB().size()) {
-					bw.write(r.getP().getP_id() + " " + r.getB().get(i).getId() + " " + r.getB().get(i).getTime() + "\n");
+					bw.write(r.getP().getP_id() + " " + r.getB().get(i).getId() + " " + r.getB().get(i).getTime()
+							+ "\n");
+					i++;
+				}
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static void write_Waiting(Person p, Book b, String f) {
+		BufferedWriter bw = null;
+
+		try {
+			bw = new BufferedWriter(new FileWriter(f));
+
+			int index_b = 0;
+			boolean b_w = false;
+			/* if book exist in waiting list */
+
+			while (index_b < getWaiting().size()) {
+				if (getWaiting().get(index_b).getB().equals(b)) {
+					getWaiting().get(index_b).getP().add(p);
+					b_w = true;
+					break;
+				}
+
+				index_b++;
+			}
+			/* if book not exist in waiting list */
+			if (b_w == false) {
+
+				index_b = 0;
+				while (index_b < getBooks().size()) {
+					if (getBooks().get(index_b).equals(b)) {
+						ArrayList<Person> person = new ArrayList<Person>();
+						person.add(p);
+						getWaiting().add(new Waiting(getBooks().get(index_b), person));
+						break;
+					}
+					index_b++;
+				}
+			}
+			for (Waiting w : getWaiting()) {
+				int i = 0;
+				while (i < w.getP().size()) {
+					bw.write(w.getB().getId() + " " + w.getP().get(i).getP_id() + "\n");
 					i++;
 				}
 			}
@@ -364,7 +570,39 @@ public class Record {
 			for (Reserved r : getReserved()) {
 				int i = 0;
 				while (i < r.getB().size()) {
-					bw.write(r.getP().getP_id() + " " + r.getB().get(i).getId() + " " + r.getB().get(i).getTime() + "\n");
+					bw.write(r.getP().getP_id() + " " + r.getB().get(i).getId() + " " + r.getB().get(i).getTime()
+							+ "\n");
+					i++;
+				}
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static void delete_waiting(Book b, String f) {
+		BufferedWriter bw = null;
+
+		try {
+			bw = new BufferedWriter(new FileWriter(f));
+
+			int index_b = 0;
+
+			while (index_b < getWaiting().size()) {
+				if (getWaiting().get(index_b).getB().equals(b)) {
+					getWaiting().remove(index_b);
+					break;
+
+				}
+
+				index_b++;
+			}
+
+			for (Waiting w : getWaiting()) {
+				int i = 0;
+				while (i < w.getP().size()) {
+					bw.write(w.getB().getId() + " " + w.getP().get(i).getP_id() + "\n");
 					i++;
 				}
 			}
@@ -380,6 +618,8 @@ public class Record {
 		read_librarian(getLibrarians(), "librarians.txt");
 		read_book(getBooks(), "books.txt");
 		read_reserved("reserved.txt");
+		read_waiting("waiting.txt");
+		read_reading("reading.txt");
 		Login.main(null);
 	}
 

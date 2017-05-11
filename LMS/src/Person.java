@@ -12,6 +12,7 @@ public class Person {
 	private double fine;
 	private int P_id;
 	private String time;
+	private ArrayList<Book> b;
 
 	@Override
 	public int hashCode() {
@@ -105,6 +106,14 @@ public class Person {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	public ArrayList<Book> getB() {
+		return b;
+	}
+	
+
+	public void setB(ArrayList<Book> b) {
+		this.b = b;
+	}
 
 	public Person(int p_id, String name, String surname, String email, String username, String pass) {
 		P_id = p_id;
@@ -115,6 +124,7 @@ public class Person {
 		this.pass = pass;
 		this.fine = 0.0;
 		this.time = "01.01.2010";
+		this.b = new ArrayList<Book>();
 	}
 
 	public Person(int p_id, String name, String surname, String email, String username, String pass, double f,
@@ -127,6 +137,7 @@ public class Person {
 		this.pass = pass;
 		this.fine = f;
 		this.time = t;
+		this.b = new ArrayList<Book>();
 	}
 
 	public Person() {
